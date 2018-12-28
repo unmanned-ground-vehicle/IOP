@@ -45,7 +45,7 @@ void Liveness_ReceiveFSM::setupNotifications()
 void Liveness_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRec transportData)
 {
 	ReportHeartbeatPulse response;
-	JausAddress server(126, 1, 120);
+	JausAddress server(transportData.getSrcSubsystemID(), transportData.getSrcNodeID(), transportData.getSrcComponentID());
 	sendJausMessage(response, server);
 	printf("Take me heart!\n");
 }
