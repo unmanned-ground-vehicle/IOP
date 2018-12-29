@@ -33,7 +33,7 @@ elif env['PLATFORM'] == 'darwin':
 	env.Append( CCFLAGS = ['-D__MAC__'] )
 elif os.name == 'posix':
 	env.Append( LINKFLAGS = ['-lpthread', '-lrt'] )
-	env.Append( CPPFLAGS = ['-g', '-Wno-write-strings'])
+	env.Append( CPPFLAGS = ['-g', '-Wno-write-strings', '-std=c++11'])
 	extra_libs = ['pthread', 'rt']
 Export('env')
 
