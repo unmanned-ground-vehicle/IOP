@@ -1,8 +1,8 @@
-
-
 #ifndef DISCOVERY_RECEIVEFSM_H
 #define DISCOVERY_RECEIVEFSM_H
 
+#include <vector>
+#include <map>
 #include "JausUtils.h"
 #include "InternalEvents/InternalEventHandler.h"
 #include "Transport/JausTransport.h"
@@ -13,6 +13,7 @@
 typedef JTS::Receive_1_0 Receive;
 typedef JTS::Send_1_0 Send;
 
+
 #include "urn_jaus_jss_core_Transport_1_0/Transport_ReceiveFSM.h"
 #include "urn_jaus_jss_core_Events_1_0/Events_ReceiveFSM.h"
 
@@ -22,8 +23,13 @@ typedef JTS::Send_1_0 Send;
 namespace urn_jaus_jss_core_Discovery_1_0
 {
 	
+typedef ReportServices::Body::NodeList::NodeSeq::ComponentList::ComponentSeq::ServiceList::ServiceRec ServiceRec;
 class DllExport Discovery_ReceiveFSM : public JTS::StateMachine
 {
+private:
+
+	ReportServices::Body::NodeList::NodeSeq::ComponentList::ComponentSeq::ServiceList::ServiceRec s;
+	std::map<jUnsignedByte, std::map<jUnsignedByte, std::vector<ServiceRec> > > registeredSrvs;
 public:
 	Discovery_ReceiveFSM(urn_jaus_jss_core_Transport_1_0::Transport_ReceiveFSM* pTransport_ReceiveFSM, urn_jaus_jss_core_Events_1_0::Events_ReceiveFSM* pEvents_ReceiveFSM);
 	virtual ~Discovery_ReceiveFSM();
