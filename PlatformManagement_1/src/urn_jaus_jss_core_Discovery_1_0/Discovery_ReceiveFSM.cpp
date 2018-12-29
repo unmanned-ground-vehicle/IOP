@@ -22,6 +22,47 @@ Discovery_ReceiveFSM::Discovery_ReceiveFSM(urn_jaus_jss_core_Transport_1_0::Tran
 
 	this->pTransport_ReceiveFSM = pTransport_ReceiveFSM;
 	this->pEvents_ReceiveFSM = pEvents_ReceiveFSM;
+
+	// Register Available Services
+	ServiceRec srec;
+	srec.setMajorVersionNumber(1);
+	srec.setMinorVersionNumber(0);
+	
+	// Services in Platform Management Component
+	srec.setURI(TRNS_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_PLT_MGMT].push_back(ServiceRec(srec));
+	srec.setURI(EVNT_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_PLT_MGMT].push_back(ServiceRec(srec));
+	srec.setURI(ACTR_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_PLT_MGMT].push_back(ServiceRec(srec));
+	srec.setURI(DISC_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_PLT_MGMT].push_back(ServiceRec(srec));
+	srec.setURI(LIVE_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_PLT_MGMT].push_back(ServiceRec(srec));
+
+	// Services in Navigation & Reporting Component
+	srec.setURI(TRNS_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(EVNT_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(ACTR_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(MGMT_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(LIVE_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+
+	srec.setURI(WPDR_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(WPLS_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(VSTS_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(LPOS_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+	srec.setURI(PRDR_NAME_STR);
+	registeredSrvs[NODE_ID][COMP_ID_NAV_REP].push_back(ServiceRec(srec));
+
 }
 
 
@@ -65,7 +106,7 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 		ReportIdentification rid;
 		rid.getBody()->getReportIdentificationRec()->setQueryType(2); // Subsytem identification
 		rid.getBody()->getReportIdentificationRec()->setType(10001); // Vehicle
-		if(rid.getBody()->getReportIdentificationRec()->setIdentification("Centaur") == 1) // TODO: Separate Subsystem Name
+		if(rid.getBody()->getReportIdentificationRec()->setIdentification(SUBSYSTEM_NAME_STR) == 1)
 			std::cout << "Successfully set ID" << std::endl;
 		 else std::cout << "Cannot set ID :(" << std::endl;
 
@@ -74,14 +115,14 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 		ReportConfiguration rcfg;
 
 		ReportConfiguration::Body::NodeList::NodeSeq::ComponentList::ComponentRec nav_rep, plt_mgmt;
-		plt_mgmt.setComponentID(1);
+		plt_mgmt.setComponentID(COMP_ID_PLT_MGMT);
 		plt_mgmt.setInstanceID(0); // non legacy component
 
-		nav_rep.setComponentID(2);
+		nav_rep.setComponentID(COMP_ID_NAV_REP);
 		nav_rep.setInstanceID(0); // non legacy component
 
 		ReportConfiguration::Body::NodeList::NodeSeq elem;
-		elem.getNodeRec()->setNodeID(1); // Single Node
+		elem.getNodeRec()->setNodeID(NODE_ID); // Single Node
 		elem.getComponentList()->addElement(nav_rep); // Nav & Reorting Component
 		elem.getComponentList()->addElement(plt_mgmt); // Platform Management Component
 
@@ -92,9 +133,9 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 		ReportSubsystemList rsyslist;
 
 		ReportSubsystemList::Body::SubsystemList::SubsystemRec rec;
-		rec.setSubsystemID(126); // TODO: Separate Subsystem ID
-		rec.setNodeID(1);
-		rec.setComponentID(1);
+		rec.setSubsystemID(SUBSYSTEM_ID);
+		rec.setNodeID(NODE_ID);
+		rec.setComponentID(COMP_ID_PLT_MGMT);
 		rsyslist.getBody()->getSubsystemList()->addElement(rec);
 
 		sendJausMessage(rsyslist, server);
