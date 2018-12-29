@@ -4,6 +4,7 @@
 #include <signal.h>
 #include "Transport/OS.h"
 #include "PlatformManagement.h"
+#include "JausTopology.h"
 
 // Create a static signal to catch interrupts
 static DeVivo::Junior::JrSignal exit_signal;
@@ -15,8 +16,7 @@ static void handle_exit_signal( int signum )
 int main(int argc, char *argv[])
 {
     // Instantiate the component and start it.
-
-    PlatformManagement* cmpt = new PlatformManagement(126, 1, 1);
+    PlatformManagement* cmpt = new PlatformManagement(SUBSYSTEM_ID, NODE_ID, COMP_ID_PLT_MGMT);
 	
 	// Catch exit signals
 	signal( SIGINT, handle_exit_signal );

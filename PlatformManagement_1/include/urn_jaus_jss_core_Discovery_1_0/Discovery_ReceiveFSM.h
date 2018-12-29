@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include "JausTopology.h"
 #include "JausUtils.h"
 #include "InternalEvents/InternalEventHandler.h"
 #include "Transport/JausTransport.h"
