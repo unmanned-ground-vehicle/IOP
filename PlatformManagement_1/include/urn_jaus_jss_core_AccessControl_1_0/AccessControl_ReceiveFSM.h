@@ -1,9 +1,8 @@
-
-
 #ifndef ACCESSCONTROL_RECEIVEFSM_H
 #define ACCESSCONTROL_RECEIVEFSM_H
 
 #include "JausUtils.h"
+#include "JausTopology.h"
 #include "InternalEvents/InternalEventHandler.h"
 #include "Transport/JausTransport.h"
 #include "JTSStateMachine.h"
@@ -24,9 +23,19 @@ namespace urn_jaus_jss_core_AccessControl_1_0
 	
 class DllExport AccessControl_ReceiveFSM : public JTS::StateMachine
 {
+private:
+	jUnsignedByte ctrlSubsystemID;
+	jUnsignedByte ctrlNodeID;
+	jUnsignedByte ctrlComponentID;
+
+	jUnsignedByte currentAuthority;
+
+	jUnsignedByte timeout;	
+
 public:
 	AccessControl_ReceiveFSM(urn_jaus_jss_core_Transport_1_0::Transport_ReceiveFSM* pTransport_ReceiveFSM, urn_jaus_jss_core_Events_1_0::Events_ReceiveFSM* pEvents_ReceiveFSM);
 	virtual ~AccessControl_ReceiveFSM();
+
 	
 	/// Handle notifications on parent state changes
 	virtual void setupNotifications();

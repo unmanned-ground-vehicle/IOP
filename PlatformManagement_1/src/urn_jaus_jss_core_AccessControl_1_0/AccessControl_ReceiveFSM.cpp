@@ -1,18 +1,12 @@
-
-
 #include "urn_jaus_jss_core_AccessControl_1_0/AccessControl_ReceiveFSM.h"
-
-
-
 
 using namespace JTS;
 
 namespace urn_jaus_jss_core_AccessControl_1_0
 {
 
-
-
 AccessControl_ReceiveFSM::AccessControl_ReceiveFSM(urn_jaus_jss_core_Transport_1_0::Transport_ReceiveFSM* pTransport_ReceiveFSM, urn_jaus_jss_core_Events_1_0::Events_ReceiveFSM* pEvents_ReceiveFSM)
+: timeout(0)
 {
 
 	/*
@@ -46,71 +40,133 @@ void AccessControl_ReceiveFSM::setupNotifications()
 
 void AccessControl_ReceiveFSM::ResetTimerAction()
 {
-	/// Insert User Code HERE
+	timeout=0;
 }
 
 void AccessControl_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRec transportData)
 {
-	/// Insert User Code HERE
+	JausAddress client(
+		transportData.getSrcSubsystemID(),
+		transportData.getSrcNodeID(),
+		transportData.getSrcComponentID());
+
+	if (arg0 == "ReportAuthority") {
+		ReportAuthority rauth;
+		rauth.getBody()->getReportAuthorityRec()->setAuthorityCode(currentAuthority);
+		sendJausMessage(rauth, client);
+
+	} else if(arg0 == "ReportTimeout") {
+		ReportTimeout rtout;
+		rtout.getBody()->getReportTimoutRec()->setTimeout(timeout);
+		sendJausMessage(rtout, client);
+
+	} else if (arg0 == "ReportControl") {
+		ReportControl rctrl;
+		rctrl.getBody()->getReportControlRec()->setSubsystemID(ctrlSubsystemID);
+		rctrl.getBody()->getReportControlRec()->setNodeID(ctrlNodeID);
+		rctrl.getBody()->getReportControlRec()->setComponentID(ctrlComponentID);
+		sendJausMessage(rctrl, client);
+	}
 }
 
 void AccessControl_ReceiveFSM::SendAction(std::string arg0, std::string arg1)
 {
-	/// Insert User Code HERE
+	if (arg0 == "RejectControl" && arg1 == "CONTROL_RELEASED") {
+		JausAddress client(ctrlSubsystemID, ctrlNodeID, ctrlComponentID);
+		currentAuthority = DEFAULT_AUTHORITY;
+		ctrlSubsystemID = ctrlNodeID = ctrlComponentID = 0;
+	
+		RejectControl rctrl;
+		rctrl.getBody()->getRejectControlRec()->setResponseCode(0);
+	
+		sendJausMessage(rctrl, client);
+	}
 }
 
 void AccessControl_ReceiveFSM::SendAction(std::string arg0, std::string arg1, Receive::Body::ReceiveRec transportData)
 {
-	/// Insert User Code HERE
+	JausAddress client(transportData.getSrcSubsystemID(),
+		transportData.getSrcNodeID(),
+		transportData.getSrcComponentID());
+
+	if (arg0 == "ConfirmControl") {
+		ConfirmControl cctrl;
+		if (arg1 == "CONTROL_ACCEPTED")
+			cctrl.getBody()->getConfirmControlRec()->setResponseCode(0); //CONTROL_ACCEPTED
+		else if (arg1 == "NOT_AVAILABLE")
+			cctrl.getBody()->getConfirmControlRec()->setResponseCode(1); //NOT_AVAILABLE
+		else if (arg1 == "INSUFFICIENT_AUTHORITY")
+			cctrl.getBody()->getConfirmControlRec()->setResponseCode(2); //INSUFFICIENT_AUTHORITY
+
+		sendJausMessage(cctrl, client);
+	} else if (arg0 == "RejectControl") {
+		RejectControl rctrl;
+		if (arg1 == "CONTROL_RELEASED") {
+			if (isControllingClient(transportData)){
+				currentAuthority = DEFAULT_AUTHORITY;
+				ctrlSubsystemID = ctrlNodeID = ctrlComponentID = 0;				
+			}
+
+			rctrl.getBody()->getRejectControlRec()->setResponseCode(0); //CONTROL_RELEASED
+		}
+		else if (arg1 == "NOT_AVAILABLE")
+			rctrl.getBody()->getRejectControlRec()->setResponseCode(1); //NOT_AVAILABLE
+
+		sendJausMessage(rctrl, client);
+	}
+
 }
 
 void AccessControl_ReceiveFSM::SetAuthorityAction(RequestControl msg)
 {
-	/// Insert User Code HERE
+	currentAuthority = msg.getBody()->getRequestControlRec()->getAuthorityCode();
 }
 
 void AccessControl_ReceiveFSM::SetAuthorityAction(SetAuthority msg)
 {
-	/// Insert User Code HERE
+	currentAuthority = msg.getBody()->getAuthorityRec()->getAuthorityCode();
 }
 
 void AccessControl_ReceiveFSM::StoreAddressAction(Receive::Body::ReceiveRec transportData)
 {
-	/// Insert User Code HERE
+	ctrlSubsystemID = transportData.getSrcSubsystemID();
+	ctrlNodeID = transportData.getSrcNodeID();
+	ctrlComponentID = transportData.getSrcComponentID();
 }
 
 void AccessControl_ReceiveFSM::initAction()
 {
-	/// Insert User Code HERE
+	ctrlSubsystemID = 0;
+	ctrlNodeID = 0;
+	ctrlComponentID = 0;
+	currentAuthority = DEFAULT_AUTHORITY;
 }
 
 
 
 bool AccessControl_ReceiveFSM::isAuthorityValid(SetAuthority msg)
 {
-	/// Insert User Code HERE
-	return false;
+	jUnsignedByte auth = msg.getBody()->getAuthorityRec()->getAuthorityCode();
+	return auth >= 0 || auth <= 255;
 }
 bool AccessControl_ReceiveFSM::isControlAvailable()
 {
-	/// Insert User Code HERE
-	return false;
+	return true;
 }
 bool AccessControl_ReceiveFSM::isControllingClient(Receive::Body::ReceiveRec transportData)
 {
-	/// Insert User Code HERE
-	return false;
+	return 
+	transportData.getSrcSubsystemID() == ctrlSubsystemID && 
+	transportData.getSrcNodeID() == ctrlNodeID &&
+	transportData.getSrcComponentID() == ctrlComponentID;
 }
 bool AccessControl_ReceiveFSM::isCurrentAuthorityLess(RequestControl msg)
 {
-	/// Insert User Code HERE
-	return false;
+	return currentAuthority < msg.getBody()->getRequestControlRec()->getAuthorityCode();
 }
 bool AccessControl_ReceiveFSM::isDefaultAuthorityGreater(RequestControl msg)
 {
-	/// Insert User Code HERE
-	return false;
+	return DEFAULT_AUTHORITY > msg.getBody()->getRequestControlRec()->getAuthorityCode();
 }
-
 
 };

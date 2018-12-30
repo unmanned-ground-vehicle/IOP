@@ -22,3 +22,6 @@
 #define VSTS_NAME_STR "urn:jaus:jss:mobility:VelocityStateSensor"
 #define LPOS_NAME_STR "urn:jaus:jss:mobility:LocalPoseSensor"
 #define PRDR_NAME_STR "urn:jaus:jss:mobility:PrimitiveDriver"
+
+// Default Authority Code
+#define DEFAULT_AUTHORITY 0
