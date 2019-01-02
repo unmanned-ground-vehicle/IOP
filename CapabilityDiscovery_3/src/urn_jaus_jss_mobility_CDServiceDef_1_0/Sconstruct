@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/CapabilityDiscoveryServiceDefService.cpp', 'Build/CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol.cpp', 'Build/CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_sm.cpp', 'Build/Messages/QueryIdentification.cpp', 'Build/Messages/QueryServices.cpp', 'Build/Messages/ReportIdentification.cpp', 'Build/Messages/ReportServices.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/CapabilityDiscoveryServiceDefService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )
