@@ -106,9 +106,9 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 		ReportIdentification rid;
 		rid.getBody()->getReportIdentificationRec()->setQueryType(2); // Subsytem identification
 		rid.getBody()->getReportIdentificationRec()->setType(10001); // Vehicle
-		if(rid.getBody()->getReportIdentificationRec()->setIdentification(SUBSYSTEM_NAME_STR) == 1)
-			std::cout << "Successfully set ID" << std::endl;
-		 else std::cout << "Cannot set ID :(" << std::endl;
+		if(rid.getBody()->getReportIdentificationRec()->setIdentification(SUBSYSTEM_NAME_STR) == 0)
+			std::cout << "Successfully set subsystem name" << std::endl;
+		 else std::cout << "Cannot set subsystem name :(" << std::endl;
 
 		 sendJausMessage(rid, server);
 	} else if (arg0 == "ReportConfiguration") {
