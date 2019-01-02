@@ -79,8 +79,12 @@ bool CapabilityDiscoveryServiceDefService::processTransitions(InternalEvent* ie)
 					{
 						ReportIdentification msg;
 						msg.decode(casted_ie->getBody()->getReceiveRec()->getMessagePayload()->getData());
-						Receive::Body::ReceiveRec transportData = *(casted_ie->getBody()->getReceiveRec());
-						pCapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol->context->ReceiveTransition(msg, transportData);
+						// Unique identifier used to replace previous edits upon regeneration, do not delete this comment:918dfced-d179-3cd5-a492-ff2a508d0141
+						unsigned int sender = (casted_ie->getBody()->getReceiveRec()->getSrcSubsystemID() << 16) +
+											  (casted_ie->getBody()->getReceiveRec()->getSrcNodeID() << 8) +
+											  (casted_ie->getBody()->getReceiveRec()->getSrcComponentID());
+						
+						pCapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol->context->ReportIdentificationTransition(msg, sender);
 						done = true;
 						goto leave;
 					}
@@ -98,8 +102,11 @@ bool CapabilityDiscoveryServiceDefService::processTransitions(InternalEvent* ie)
 					{
 						ReportServices msg;
 						msg.decode(casted_ie->getBody()->getReceiveRec()->getMessagePayload()->getData());
-						Receive::Body::ReceiveRec transportData = *(casted_ie->getBody()->getReceiveRec());
-						pCapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol->context->ReceiveTransition(msg, transportData);
+						// Unique identifier used to replace previous edits upon regeneration, do not delete this comment:323b1454-5a8e-34cf-b98b-7359a7d7a5e6
+						unsigned int sender = (casted_ie->getBody()->getReceiveRec()->getSrcSubsystemID() << 16) +
+							(casted_ie->getBody()->getReceiveRec()->getSrcNodeID() << 8) +
+							(casted_ie->getBody()->getReceiveRec()->getSrcComponentID());
+						pCapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol->context->ReportServicesTransition(msg, sender);
 						done = true;
 						goto leave;
 					}

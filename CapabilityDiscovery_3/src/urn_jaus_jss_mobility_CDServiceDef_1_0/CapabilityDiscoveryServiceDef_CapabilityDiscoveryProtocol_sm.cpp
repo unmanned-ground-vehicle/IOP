@@ -17,25 +17,25 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
     CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Ready CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready("CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready", 0);
     CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Internally_Generated_State_DO_NOT_USE CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Internally_Generated_State_DO_NOT_USE("CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Internally_Generated_State_DO_NOT_USE", 1);
 
-    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState::ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, Receive::Body::ReceiveRec& transportData)
-    {
-        Default(context);
-        return;
-    }
-
-    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState::ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, Receive::Body::ReceiveRec& transportData)
-    {
-        Default(context);
-        return;
-    }
-
     void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState::ReportIdentificationTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context)
     {
         Default(context);
         return;
     }
 
+    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState::ReportIdentificationTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, unsigned int& sender)
+    {
+        Default(context);
+        return;
+    }
+
     void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState::ReportServicesTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context)
+    {
+        Default(context);
+        return;
+    }
+
+    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState::ReportServicesTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, unsigned int& sender)
     {
         Default(context);
         return;
@@ -59,7 +59,7 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
         return;
     }
 
-    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Ready::ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, Receive::Body::ReceiveRec& transportData)
+    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Ready::ReportIdentificationTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, unsigned int& sender)
     {
         CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol& ctxt(context.getOwner());
 
@@ -77,19 +77,19 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
         {
             std::ostream& str = context.getDebugStream();
 
-            str << "ENTER TRANSITION: CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReceiveTransition(ReportIdentification& msg, Receive::Body::ReceiveRec& transportData)"
+            str << "ENTER TRANSITION: CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReportIdentificationTransition(ReportIdentification& msg, unsigned int& sender)"
                 << std::endl;
         }
 
         context.clearState();
         try
         {
-            ctxt.SendAction("QueryIdentification", transportData);
+            ctxt.sendQueryIdentificationAction(msg, sender);
             if (context.getDebugFlag() == true)
             {
                 std::ostream& str = context.getDebugStream();
 
-                str << "EXIT TRANSITION : CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReceiveTransition(ReportIdentification& msg, Receive::Body::ReceiveRec& transportData)"
+                str << "EXIT TRANSITION : CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReportIdentificationTransition(ReportIdentification& msg, unsigned int& sender)"
                     << std::endl;
             }
 
@@ -104,7 +104,7 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
         return;
     }
 
-    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Ready::ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, Receive::Body::ReceiveRec& transportData)
+    void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Ready::ReportServicesTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, unsigned int& sender)
     {
         CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol& ctxt(context.getOwner());
 
@@ -122,19 +122,19 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
         {
             std::ostream& str = context.getDebugStream();
 
-            str << "ENTER TRANSITION: CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReceiveTransition(ReportServices& msg, Receive::Body::ReceiveRec& transportData)"
+            str << "ENTER TRANSITION: CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReportServicesTransition(ReportServices& msg, unsigned int& sender)"
                 << std::endl;
         }
 
         context.clearState();
         try
         {
-            ctxt.SendAction("QueryServices", transportData);
+            ctxt.sendQueryServicesAction(msg, sender);
             if (context.getDebugFlag() == true)
             {
                 std::ostream& str = context.getDebugStream();
 
-                str << "EXIT TRANSITION : CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReceiveTransition(ReportServices& msg, Receive::Body::ReceiveRec& transportData)"
+                str << "EXIT TRANSITION : CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM::Ready::ReportServicesTransition(ReportServices& msg, unsigned int& sender)"
                     << std::endl;
             }
 
