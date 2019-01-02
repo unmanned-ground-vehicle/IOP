@@ -36,10 +36,10 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
         virtual void Entry(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext&) {};
         virtual void Exit(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext&) {};
 
-        virtual void ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, Receive::Body::ReceiveRec& transportData);
-        virtual void ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, Receive::Body::ReceiveRec& transportData);
         virtual void ReportIdentificationTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context);
+        virtual void ReportIdentificationTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, unsigned int& sender);
         virtual void ReportServicesTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context);
+        virtual void ReportServicesTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, unsigned int& sender);
 
     protected:
 
@@ -73,8 +73,8 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
         : CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Default(name, stateId)
         {};
 
-        void ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, Receive::Body::ReceiveRec& transportData);
-        void ReceiveTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, Receive::Body::ReceiveRec& transportData);
+        void ReportIdentificationTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportIdentification& msg, unsigned int& sender);
+        void ReportServicesTransition(CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolContext& context, ReportServices& msg, unsigned int& sender);
     };
 
     class CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol_SM_Internally_Generated_State_DO_NOT_USE :
@@ -125,20 +125,6 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
             return (dynamic_cast<CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocolState&>(*_state));
         };
 
-        void ReceiveTransition(ReportIdentification& msg, Receive::Body::ReceiveRec& transportData)
-        {
-            setTransition("ReceiveTransition");
-            (getState()).ReceiveTransition(*this, msg, transportData);
-            setTransition(NULL);
-        };
-
-        void ReceiveTransition(ReportServices& msg, Receive::Body::ReceiveRec& transportData)
-        {
-            setTransition("ReceiveTransition");
-            (getState()).ReceiveTransition(*this, msg, transportData);
-            setTransition(NULL);
-        };
-
         void ReportIdentificationTransition()
         {
             setTransition("ReportIdentificationTransition");
@@ -146,10 +132,24 @@ namespace urn_jaus_jss_mobility_CDServiceDef_1_0
             setTransition(NULL);
         };
 
+        void ReportIdentificationTransition(ReportIdentification& msg, unsigned int& sender)
+        {
+            setTransition("ReportIdentificationTransition");
+            (getState()).ReportIdentificationTransition(*this, msg, sender);
+            setTransition(NULL);
+        };
+
         void ReportServicesTransition()
         {
             setTransition("ReportServicesTransition");
             (getState()).ReportServicesTransition(*this);
+            setTransition(NULL);
+        };
+
+        void ReportServicesTransition(ReportServices& msg, unsigned int& sender)
+        {
+            setTransition("ReportServicesTransition");
+            (getState()).ReportServicesTransition(*this, msg, sender);
             setTransition(NULL);
         };
 

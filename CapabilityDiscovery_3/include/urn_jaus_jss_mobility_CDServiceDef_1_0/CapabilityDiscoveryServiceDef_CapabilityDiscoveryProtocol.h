@@ -25,13 +25,14 @@ class DllExport CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol : publ
 public:
 	CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol();
 	virtual ~CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol();
-	
+	int count;
 	/// Handle notifications on parent state changes
 	virtual void setupNotifications();
 
 	/// Action Methods
-	virtual void SendAction(std::string arg0, Receive::Body::ReceiveRec transportData);
 	virtual void broadcastQueryIdentificationAction();
+	virtual void sendQueryIdentificationAction(ReportIdentification msg, unsigned int sender);
+	virtual void sendQueryServicesAction(ReportServices msg, unsigned int sender);
 
 
 	/// Guard Methods
