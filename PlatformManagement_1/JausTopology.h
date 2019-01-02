@@ -25,3 +25,7 @@
 
 // Default Authority Code
 #define DEFAULT_AUTHORITY 0
+
+// Message IDs
+#define REPORTHEARTBEATPULSE_ID 0x4202
+#define REPORTCONTROL_ID 0x400d
