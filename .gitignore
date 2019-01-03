@@ -1,1 +1,1 @@
-Build:bin:src/*/Build:lib:src/*/lib
+Build:bin:src/*/Build:lib:src/*/lib:*/src/*/lib:*/src/*/Build:*/bin:*/Build:*/lib
