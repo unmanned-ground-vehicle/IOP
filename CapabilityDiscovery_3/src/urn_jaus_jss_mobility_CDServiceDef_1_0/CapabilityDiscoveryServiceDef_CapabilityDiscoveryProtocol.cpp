@@ -39,7 +39,7 @@ void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::setupNotificatio
 
 void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::broadcastQueryIdentificationAction()
 {
-	/// Insert User Code HERE
+	std::cout << "Broadcasting ReportIdentification" << std::endl;
 	QueryIdentification qi;
 	qi.getBody()->getQueryIdentificationRec()->setQueryType(2);
 	sendJausMessage(qi, JausAddress(0xffff, 0xff, 0xff));
@@ -47,13 +47,11 @@ void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::broadcastQueryId
 
 void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::sendQueryIdentificationAction(ReportIdentification msg, unsigned int sender)
 {
-	/// Insert User Code HERE
 	jUnsignedByte subs =  sender >> 16;
 	jUnsignedByte node = sender >> 8;
 	jUnsignedByte comp = sender;
 	
 	JausAddress client(subs, node, comp);
-	std::cout<<(int)subs<<" "<<(int)(node)<<" "<<(int)comp<<" "<<count<<std::endl;
 	
 	if(count==0)  
 	{
@@ -61,7 +59,7 @@ void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::sendQueryIdentif
 	   qiden.getBody()->getQueryIdentificationRec()->setQueryType(2);
 	   sendJausMessage(qiden, client);
 	   count++;
-	   std::cout<<"Received ReportIdentification from "<<(int)subs<<" "<<(int)node<<" " <<(int)comp <<". Sending QueryIdentification"<<std::endl;
+	   std::cout<<"Received ReportIdentification from "<<(int)subs<<":"<<(int)node<<":" <<(int)comp <<". Sending QueryIdentification"<<std::endl;
 	}
 	if(count==1)  //sending QueryService if Reportidentification Triggered for second Time
 	{   count++;
@@ -81,7 +79,7 @@ void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::sendQueryIdentif
 
         
 		sendJausMessage(qs, client);
-		std::cout<<"Received ReportIdentification from "<<(int)subs<<" "<<(int)node<<" " <<(int)comp <<". Sending QueryServices"<<std::endl;
+		std::cout<<"Received ReportIdentification from "<<(int)subs<<":"<<(int)node<<":" <<(int)comp <<". Sending QueryServices"<<std::endl;
 		
 	}
 
@@ -114,7 +112,7 @@ void CapabilityDiscoveryServiceDef_CapabilityDiscoveryProtocol::sendQueryService
                 //Printing URI of the service...
 				jVariableLengthString m_URI = srec->getURI(); 
 				jUnsignedByte m_MajorVersionNumber = srec->getMajorVersionNumber();
-				std::cout<<"The Service Is "<<m_URI;
+				std::cout<<"The Service Is "<<m_URI << std::endl;
 			}
 		}
 	}
