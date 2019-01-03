@@ -153,6 +153,7 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 
 				ReportServices::Body::NodeList::NodeSeq::ComponentList::ComponentSeq cseq;
 				cseq.getComponentRec()->setComponentID(compMap.first);
+				
 				ReportServices::Body::NodeList::NodeSeq::ComponentList::ComponentSeq::ServiceList slist;
 				for(auto const& srvrec: compMap.second) {
 					slist.addElement(srvrec);
@@ -163,6 +164,7 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 			}
 
 			nseq.setComponentList(clist);
+			nlist.addElement(nseq);
 		}
 
 		rsrv.getBody()->setNodeList(nlist);
