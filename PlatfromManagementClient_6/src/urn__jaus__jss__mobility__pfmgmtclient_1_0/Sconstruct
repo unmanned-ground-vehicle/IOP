@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/Messages/QueryConfiguration.cpp', 'Build/Messages/QueryHeartBeatPulse.cpp', 'Build/Messages/QueryIdentification.cpp', 'Build/Messages/QueryServices.cpp', 'Build/Messages/QuerySubsystemList.cpp', 'Build/Messages/RegisterServices.cpp', 'Build/Messages/ReportConfiguration.cpp', 'Build/Messages/ReportHeartbeatPulse.cpp', 'Build/Messages/ReportIdentification.cpp', 'Build/Messages/ReportServices.cpp', 'Build/Messages/ReportSubsystemList.cpp', 'Build/PlatformManagementServiceDefService.cpp', 'Build/PlatformManagementServiceDef_PlatformManagementProtocol.cpp', 'Build/PlatformManagementServiceDef_PlatformManagementProtocol_sm.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/PlatformManagementServiceDefService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )
