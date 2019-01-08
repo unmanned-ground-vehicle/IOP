@@ -94,6 +94,7 @@ void Discovery_ReceiveFSM::PublishServicesAction(RegisterServices msg, Receive::
 		srvinfo.setMinorVersionNumber(rec->getMinorVersionNumber());
 
 		registeredSrvs[transportData.getSrcComponentID()][transportData.getSrcNodeID()].push_back(srvinfo);
+		std::cout << "Registered service: " << rec->getURI() << std::endl;
 	}
 }
 
