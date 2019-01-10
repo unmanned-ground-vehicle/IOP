@@ -112,14 +112,58 @@ void PlatformManagementServiceDef_PlatformManagementProtocol::sendRegisterServic
 	unsigned int subs = sender>>16;
 	unsigned int node = sender>>8;
 	unsigned int comp = sender;
-	JausAddress server(subs, node, comp);
+    JausAddress server(subs, node, comp);
+
+	if(count==0)
+	{
+    RegisterServices rs;
+	RegisterServices::RegisterServicesBody::ServiceList slist;
+	RegisterServices::RegisterServicesBody::ServiceList::ServiceRec srec;
+	jVariableLengthString uri;
+	
+	uri = "urn::jaus::jss::mobility::NewCustomService";
+	jUnsignedByte maj_v = 1;
+	jUnsignedByte min_v = 0;
+	srec.setURI(uri);
+	srec.setMajorVersionNumber(maj_v);
+	srec.setMinorVersionNumber(min_v);
+    slist.addElement(srec);
+	rs.getRegisterServicesBody()->setServiceList(slist);
+	count++;
+	std::cout<<"Registering Service ...   Sending Register Services..  "<<std::endl;
+	sendJausMessage(rs, server);
+	QueryServices qs;
+		QueryServices::Body::NodeList nlist;
+		QueryServices::Body::NodeList::NodeSeq nseq;
+		QueryServices::Body::NodeList::NodeSeq::NodeRec nrec;
+		nrec.setNodeID(255);
+		nseq.setNodeRec(nrec);
+		QueryServices::Body::NodeList::NodeSeq::ComponentList clist;
+		QueryServices::Body::NodeList::NodeSeq::ComponentList::ComponentRec crec;
+		crec.setComponentID(255);
+		clist.addElement(crec);
+		nseq.setComponentList(clist);
+		nlist.addElement(nseq);
+		qs.getBody()->setNodeList(nlist);
+		std::cout<<" Sending Query Services..  "<<std::endl;
+    sendJausMessage(qs, server);
+   
+	
+
+
+	}
+
+	else if(count>=1)
+	{
 	ReportServices::Body::NodeList * nlist = msg.getBody()->getNodeList();
 	unsigned int size = nlist->getNumberOfElements();
+    int flag = 0;
+
     std::cout<<"Recieved ReportServices.. Printing the services.."<<std::endl;
 	if(size==0)
     std::cout<<"No services found Running"<<std::endl;
-
-	if(count>=1)
+    
+	else if(size>=1)
 	{
 	for(unsigned int i=0;i<size;i++)   //Looking for Elements of NodeList
 	{
@@ -140,50 +184,29 @@ void PlatformManagementServiceDef_PlatformManagementProtocol::sendRegisterServic
 				jVariableLengthString m_URI = srec->getURI(); 
 				if(m_URI=="urn::jaus::jss::mobility::NewCustomService")
 				{
-					std::cout<<"Congratulations, The service you requested has been created "<<m_URI<<std::endl;
+					flag=1;
+				}
+				std::cout<<m_URI<<std::endl;
+			}
+		}
+	}
+	if(flag==1)
+				{
+					std::cout<<"Congratulations, The service you requested has been created "<<std::endl;
 				}
 				else{
 					std::cout<<"No new Service Created";
 				}
-			}
-		}
-	}
 
 	QuerySubsystemList qsl;
-	QuerySubsystemList::AppHeader header;
-	QuerySubsystemList::AppHeader::HeaderRec hrec;
-	hrec.setMessageID(7);
-	header.setHeaderRec(hrec);
-	qsl.setAppHeader(header);
-	std::cout<<"Recieved ReportServices, Checked for new Service, Sending QuerySubsystemList";
 	sendJausMessage(qsl, server);
 
 	}
 
-	if(count==0)
-	{
-      RegisterServices rs;
-	  RegisterServices::RegisterServicesBody::ServiceList slist;
-	RegisterServices::RegisterServicesBody::ServiceList::ServiceRec srec;
-	jVariableLengthString uri;
 	
-	uri = "urn::jaus::jss::mobility::NewCustomService";
-	jUnsignedByte maj_v = 1;
-	jUnsignedByte min_v = 0;
-	srec.setURI(uri);
-	srec.setMajorVersionNumber(maj_v);
-	srec.setMinorVersionNumber(min_v);
-    slist.addElement(srec);
-	rs.getRegisterServicesBody()->setServiceList(slist);
-	sendJausMessage(rs, server);
-    count++;
-	
-
-
-	}
 }
 
 
 
-
+}
 };
