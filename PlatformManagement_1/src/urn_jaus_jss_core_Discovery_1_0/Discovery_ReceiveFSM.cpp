@@ -173,7 +173,10 @@ void Discovery_ReceiveFSM::SendAction(std::string arg0, Receive::Body::ReceiveRe
 		sendJausMessage(rsrv, server);
 	} else {
 		std::cout << "[Discovery] Unknown arg: " << arg0 << std::endl;
+		return;
 	}
+	
+	std::cout << "Sent " << arg0 << std::endl;
 }
 
 
