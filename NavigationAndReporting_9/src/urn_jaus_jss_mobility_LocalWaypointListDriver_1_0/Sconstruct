@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/LocalWaypointListDriverService.cpp', 'Build/LocalWaypointListDriver_LocalWaypointListDriverProtocol.cpp', 'Build/LocalWaypointListDriver_LocalWaypointListDriverProtocol_sm.cpp', 'Build/Messages/ConfirmElementRequest.cpp', 'Build/Messages/ExecuteList.cpp', 'Build/Messages/QueryActiveElement.cpp', 'Build/Messages/QueryElementCount.cpp', 'Build/Messages/QueryElementList.cpp', 'Build/Messages/QueryLocalWaypoint.cpp', 'Build/Messages/QueryTravelSpeed.cpp', 'Build/Messages/ReportActiveElement.cpp', 'Build/Messages/ReportElementCount.cpp', 'Build/Messages/ReportElementList.cpp', 'Build/Messages/ReportLocalWaypoint.cpp', 'Build/Messages/ReportTravelSpeed.cpp', 'Build/Messages/SetElement.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/LocalWaypointListDriverService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )

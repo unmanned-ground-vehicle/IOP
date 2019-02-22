@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/Messages/ClearEmergency.cpp', 'Build/Messages/ConfirmControl.cpp', 'Build/Messages/QueryLocalPose.cpp', 'Build/Messages/QueryLocalWaypoint.cpp', 'Build/Messages/QueryTravelSpeed.cpp', 'Build/Messages/ReleaseControl.cpp', 'Build/Messages/ReportLocalPose.cpp', 'Build/Messages/ReportLocalWaypoint.cpp', 'Build/Messages/ReportTravelSpeed.cpp', 'Build/Messages/RequestControl.cpp', 'Build/Messages/Resume.cpp', 'Build/Messages/SetEmergency.cpp', 'Build/Messages/SetLocalPose.cpp', 'Build/Messages/SetLocalWaypoint.cpp', 'Build/Messages/SetTravelSpeed.cpp', 'Build/Messages/Standby.cpp', 'Build/NavigationAndReportingClientService.cpp', 'Build/NavigationAndReportingClient_NavigationAndReportingClientProtocol.cpp', 'Build/NavigationAndReportingClient_NavigationAndReportingClientProtocol_sm.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/NavigationAndReportingClientService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )

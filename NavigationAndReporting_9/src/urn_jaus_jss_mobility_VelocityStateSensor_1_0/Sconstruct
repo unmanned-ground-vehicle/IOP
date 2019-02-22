@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/Messages/QueryVelocityState.cpp', 'Build/Messages/ReportVelocityState.cpp', 'Build/VelocityStateSensorService.cpp', 'Build/VelocityStateSensor_VelocityStateSensorProtocol.cpp', 'Build/VelocityStateSensor_VelocityStateSensorProtocol_sm.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/VelocityStateSensorService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )

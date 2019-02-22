@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/LocalPoseSensorService.cpp', 'Build/LocalPoseSensor_LocalPoseSensorProtocol.cpp', 'Build/LocalPoseSensor_LocalPoseSensorProtocol_sm.cpp', 'Build/Messages/QueryLocalPose.cpp', 'Build/Messages/ReportLocalPose.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/LocalPoseSensorService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )

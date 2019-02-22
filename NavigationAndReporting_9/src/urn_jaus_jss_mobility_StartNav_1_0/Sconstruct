@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/Messages/ClearEmergency.cpp', 'Build/Messages/ConfirmControl.cpp', 'Build/Messages/QueryLocalPose.cpp', 'Build/Messages/ReleaseControl.cpp', 'Build/Messages/RequestControl.cpp', 'Build/Messages/Resume.cpp', 'Build/Messages/SetEmergency.cpp', 'Build/Messages/SetLocalPose.cpp', 'Build/Messages/Standby.cpp', 'Build/StartNavService.cpp', 'Build/StartNav_StartNavProtocol.cpp', 'Build/StartNav_StartNavProtocol_sm.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/StartNavService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )

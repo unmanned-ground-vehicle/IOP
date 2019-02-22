@@ -1,0 +1,6 @@
+VariantDir('Build', '.', duplicate=0)
+sources = ['Build/Messages/QueryLocalWaypoint.cpp', 'Build/Messages/QueryTravelSpeed.cpp', 'Build/Messages/ReportLocalWaypoint.cpp', 'Build/Messages/ReportTravelSpeed.cpp', 'Build/Messages/SetLocalWaypoint.cpp', 'Build/Messages/SetTravelSpeed.cpp', 'Build/WaypointDriverService.cpp', 'Build/WaypointDriver_LocalWaypontDriverProtocol.cpp', 'Build/WaypointDriver_LocalWaypontDriverProtocol_sm.cpp']
+Import('env')
+lib = env.SharedLibrary('./lib/WaypointDriverService', sources, LIBS=['Common'])
+env.Install( env['INSTALL_LIB'], lib )
+env.Install( env['BINPATH'], lib )
