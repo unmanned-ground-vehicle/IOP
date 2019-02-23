@@ -66,8 +66,8 @@ void NavigationAndReportingClient_NavigationAndReportingClientProtocol::sendResu
 	std::cout<<"Sending Set Emergency Speed Message "<<std::endl;
     
 	QueryTravelSpeed qts_msg;
-	sendJausMessage(sts_msg, server );
-	std::cout<<"Sending Set Travel Speed Message "<<std::endl;
+	sendJausMessage(qts_msg, server );
+	std::cout<<"Sending Query Travel Speed Message "<<std::endl;
 
 
 
@@ -109,8 +109,8 @@ void NavigationAndReportingClient_NavigationAndReportingClientProtocol::sendSetL
 	std::cout<<"Sending SetLocalWayPoint Message "<<std::endl;
 
 	QueryLocalWaypoint qlw_msg;
-	qlw_msg.getBody()->getQueryLocalWaypointRec()->setQueryPresenceVector(0003);
-	sendJausMessage(slw_msg, server );
+	//qlw_msg.getBody()->getQueryLocalWaypointRec()->setQueryPresenceVector(0003);
+	sendJausMessage(qlw_msg, server );
 	std::cout<<"Sending QueryLocalWayPoint Message "<<std::endl;
 	
 }
@@ -130,8 +130,8 @@ void NavigationAndReportingClient_NavigationAndReportingClientProtocol::sendSetT
 
 
 	QueryTravelSpeed qts_msg;
-	sendJausMessage(sts_msg, server );
-	std::cout<<"Sending Set Travel Speed Message "<<std::endl;
+	sendJausMessage(qts_msg, server );
+	std::cout<<"Sending Query Travel Speed Message "<<std::endl;
 	counter++;
 	}
 	else if(counter==1)
@@ -143,11 +143,11 @@ void NavigationAndReportingClient_NavigationAndReportingClientProtocol::sendSetT
 
 	ClearEmergency ce_msg;
 	sendJausMessage(ce_msg, server );
-	std::cout<<"Sending Set Travel Speed Message "<<std::endl;
+	std::cout<<"Sending Clear Emergency "<<std::endl;
 
 	QueryTravelSpeed qts_msg;
 	sendJausMessage(qts_msg, server );
-	std::cout<<"Sending Set Travel Speed Message "<<std::endl;
+	std::cout<<"Sending Query Travel Speed Message "<<std::endl;
 	counter++;
 
 	}
