@@ -83,7 +83,9 @@ void StartNav_StartNavProtocol::sendConfrimControlAction(RequestControl msg, uns
 void StartNav_StartNavProtocol::setLocalPositionAction(SetLocalPose msg, unsigned int sender)
 {
 	/// Insert User Code HERE
-	std::cout<<"Setting LocalPose"<<std::endl;
+	double x = msg.getBody()->getLocalPoseRec()->getX();
+	double y = msg.getBody()->getLocalPoseRec()->getY();
+	std::cout<<"Setting local pose to "<<x<<", "<<y<<std::endl;
 
 }
 

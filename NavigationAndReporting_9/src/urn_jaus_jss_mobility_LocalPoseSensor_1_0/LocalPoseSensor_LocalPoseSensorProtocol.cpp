@@ -43,22 +43,22 @@ void LocalPoseSensor_LocalPoseSensorProtocol::sendReportLocalPoseAction(QueryLoc
 	jUnsignedShortInteger presence_vector = msg.getBody()->getQueryLocalBodyRec()->getPresence_vector();
     ReportLocalPose rp_msg;
 	//LocalPoseRec rec = rp_msg.getBody()->getLocalPoseRec();
-	if(presence_vector>>2&1)
+	if(presence_vector&1)
 	{
         rp_msg.getBody()->getLocalPoseRec()->setX(5);
 		std::cout<<"Setting X"<<std::endl;
 	}
-	if(presence_vector>>3&1)
+	if(presence_vector>>1&1)
 	{
         rp_msg.getBody()->getLocalPoseRec()->setY(5);
 		std::cout<<"Setting Y"<<std::endl;
 	}
-	if(presence_vector>>8&1)
+	if(presence_vector>>6&1)
 	{
         rp_msg.getBody()->getLocalPoseRec()->setYaw(5);
 		std::cout<<"Setting Yaw"<<std::endl;
 	}
-    if(presence_vector>>10&1)
+    if(presence_vector>>8&1)
 	{
         rp_msg.getBody()->getLocalPoseRec()->getTimeStamp()->setHour(5);
 		rp_msg.getBody()->getLocalPoseRec()->getTimeStamp()->setMiliseconds(5);

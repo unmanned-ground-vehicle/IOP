@@ -87,10 +87,10 @@ void NavigationAndReportingClient_NavigationAndReportingClientProtocol::sendSetL
 	unsigned int comp = sender;
 	JausAddress server(subs, node, comp);
 	sendJausMessage(slp_msg, server );
-	std::cout<<"Sending SetLocalPose Message "<<std::endl;
+	std::cout<<"Sending SetLocalPose Message with pose (0,0)"<<std::endl;
 
 	QueryLocalPose qlp_msg;
-	qlp_msg.getBody()->getQueryLocalBodyRec()->setPresence_vector(0143);
+	qlp_msg.getBody()->getQueryLocalBodyRec()->setPresence_vector(0x143);
 	sendJausMessage(qlp_msg, server );
 	std::cout<<"Sending QueryLocalPose Message "<<std::endl;
 }

@@ -43,17 +43,17 @@ void VelocityStateSensor_VelocityStateSensorProtocol::sendReportVelocityStateAct
 	 
     
 	jUnsignedShortInteger presence_vector = msg.getBody()->getQueryVelocityStateRec()->getPresenceVector();
-	if(presence_vector>>2&1)
+	if(presence_vector&1)
 	{
 	    vs_msg.getBody()->getReportVelocityStateRec()->setVelocityX(5);
 		std::cout<<"Setting Velocity"<<std::endl;
 	}
-	if(presence_vector>>8&1)
+	if(presence_vector>>6&1)
 	{
 		vs_msg.getBody()->getReportVelocityStateRec()->setYawRate(5);
 		std::cout<<"Setting Yawrate"<<std::endl;
 	}
-	if(presence_vector>>10&1)
+	if(presence_vector>>8&1)
 	{   //TimeStamp time ;
 		vs_msg.getBody()->getReportVelocityStateRec()->getTimeStamp()->setHour(5);
 		vs_msg.getBody()->getReportVelocityStateRec()->getTimeStamp()->setMilliseconds(5);
